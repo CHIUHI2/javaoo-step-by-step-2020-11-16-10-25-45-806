@@ -15,7 +15,7 @@ public class Student extends Person{
         String message = "I am at " + klass.getDisplayName();
 
         Student leader = this.klass.getLeader();
-        if(leader != null && leader.getId().equals(super.getId())) {
+        if(leader != null && leader.equals(this)) {
             message = "I am Leader of " + klass.getDisplayName();
         }
 
