@@ -23,7 +23,10 @@ public class Klass {
     public String getDisplayName() { return displayName; }
 
     public void appendMember(Student student) {
-        this.memberList.add(student);
+        if(!this.memberList.contains(student)) {
+            this.memberList.add(student);
+        }
+
         this.inform("appendMember", student);
     }
 
