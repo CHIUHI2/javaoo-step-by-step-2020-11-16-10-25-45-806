@@ -23,8 +23,12 @@ public class Klass {
 
     public void appendMember(Student student) { this.memberList.add(student); }
 
+    public boolean isIn(Student student) {
+        return this.memberList.stream().anyMatch(member -> member.equals(student));
+    }
+
     public void assignLeader(Student leader) {
-        if(!this.memberList.contains(leader)) {
+        if(!this.isIn(leader)) {
             System.out.print("It is not one of us.\n");
             return;
         }
