@@ -4,7 +4,7 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.stream.Collectors;
 
-public class Teacher extends Person{
+public class Teacher extends Person {
     private LinkedList<Klass> classes;
 
     public Teacher(Integer id, String name, int age) {
@@ -15,10 +15,10 @@ public class Teacher extends Person{
     public Teacher(Integer id, String name, int age, LinkedList<Klass> classes) {
         super(id, name, age);
         this.classes = classes;
-        for(Klass klass : classes) {
-            klass.setTeacher(this);
-        }
+        this.registerClasses(classes);
     }
+
+    private void registerClasses(LinkedList<Klass> classes) { classes.stream().forEach(klass -> klass.register(this)); }
 
     public List<Klass> getClasses() { return classes; }
 
@@ -33,5 +33,14 @@ public class Teacher extends Person{
 
     public boolean isTeaching(Student student) {
         return this.classes.stream().anyMatch(klass -> klass.getNumber().equals(student.getKlass().getNumber())) ;
+    }
+
+    public void notify(String actionType, Student student, Klass klass) {
+        if(actionType.equals("appendMember")) {
+            System.out.print("I am " + super.getName() + ". I know " + student.getName() + " has joined " + klass.getDisplayName() + ".\n");
+        }
+        else if(actionType.equals("assignLeader")) {
+            System.out.print("I am " + super.getName() + ". I know " + student.getName() + " become Leader of " + klass.getDisplayName() + ".\n");
+        }
     }
 }

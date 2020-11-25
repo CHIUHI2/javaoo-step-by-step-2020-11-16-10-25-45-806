@@ -8,7 +8,7 @@ public class Klass {
     private String displayName;
     private Student leader;
     private List<Student> memberList;
-    private Teacher teacher;
+    private ArrayList<Teacher> teacherList = new ArrayList<>();
 
     public Klass(Integer number) {
         this.number = number;
@@ -22,18 +22,9 @@ public class Klass {
 
     public String getDisplayName() { return displayName; }
 
-    public Teacher getTeacher() { return teacher; }
-
-    public void setTeacher(Teacher teacher) { this.teacher = teacher; }
-
     public void appendMember(Student student) {
         this.memberList.add(student);
-        if(teacher != null) {
-            System.out.print("I am " + teacher.getName() + ". I know " + student.getName() + " has joined " + this.displayName + ".\n");
-            if(isLeader(student)) {
-                System.out.print("I am " + teacher.getName() + ". I know " + student.getName() + " become Leader of " + this.displayName + ".\n");
-            }
-        }
+        this.inform("appendMember", student);
     }
 
     public void assignLeader(Student leader) {
@@ -42,22 +33,19 @@ public class Klass {
             return;
         }
 
-        if(teacher != null) {
-            System.out.print("I am " + teacher.getName() + ". I know " + leader.getName() + " become Leader of " + this.displayName + ".\n");
-        }
-
         this.leader = leader;
+        this.inform("assignLeader", leader);
     }
 
     public boolean isIn(Student student) {
         return this.memberList.stream().anyMatch(member -> member.equals(student));
     }
 
-    public boolean isLeader(Student student) {
-        if(this.leader == null) {
-            return false;
-        }
+    public void register(Teacher teacher) {
+        this.teacherList.add(teacher);
+    }
 
-        return this.leader.equals(student);
+    public void inform(String actionType, Student student) {
+        teacherList.stream().forEach(teacher -> teacher.notify(actionType, student, this));
     }
 }
