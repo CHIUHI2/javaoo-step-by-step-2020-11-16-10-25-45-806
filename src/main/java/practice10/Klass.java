@@ -2,8 +2,10 @@ package practice10;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Observable;
+import java.util.Observer;
 
-public class Klass {
+public class Klass extends Observable {
     private Integer number;
     private String displayName;
     private Student leader;
@@ -44,11 +46,16 @@ public class Klass {
         return this.memberList.stream().anyMatch(member -> member.equals(student));
     }
 
-    public void register(Teacher teacher) {
-        this.teacherList.add(teacher);
+    @Override
+    public synchronized void addObserver(Observer observer) {
+        if(observer == null) {
+            return;
+        }
+
+        this.teacherList.add((Teacher) observer);
     }
 
     public void inform(String actionType, Student student) {
-        teacherList.stream().forEach(teacher -> teacher.notify(actionType, student, this));
+        teacherList.stream().forEach(teacher -> teacher.notifyForAction(this, student, actionType));
     }
 }

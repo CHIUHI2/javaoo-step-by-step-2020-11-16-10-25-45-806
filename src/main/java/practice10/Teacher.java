@@ -2,9 +2,10 @@ package practice10;
 
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Observable;
 import java.util.stream.Collectors;
 
-public class Teacher extends Person {
+public class Teacher extends Person implements PractiseObserver {
     private LinkedList<Klass> classes;
 
     public Teacher(Integer id, String name, int age) {
@@ -18,7 +19,7 @@ public class Teacher extends Person {
         this.registerClasses(classes);
     }
 
-    private void registerClasses(LinkedList<Klass> classes) { classes.stream().forEach(klass -> klass.register(this)); }
+    private void registerClasses(LinkedList<Klass> classes) { classes.stream().forEach(klass -> klass.addObserver(this)); }
 
     public List<Klass> getClasses() { return classes; }
 
@@ -35,7 +36,15 @@ public class Teacher extends Person {
         return this.classes.stream().anyMatch(klass -> klass.getNumber().equals(student.getKlass().getNumber())) ;
     }
 
-    public void notify(String actionType, Student student, Klass klass) {
+    @Override
+    public void notifyForAction(Observable observable, Object o, String actionType) {
+        if(observable == null || o == null || actionType.isEmpty()) {
+            return;
+        }
+
+        Klass klass = (Klass) observable;
+        Student student = (Student) o ;
+
         if(actionType.equals("appendMember")) {
             System.out.print("I am " + super.getName() + ". I know " + student.getName() + " has joined " + klass.getDisplayName() + ".\n");
         }
@@ -43,4 +52,7 @@ public class Teacher extends Person {
             System.out.print("I am " + super.getName() + ". I know " + student.getName() + " become Leader of " + klass.getDisplayName() + ".\n");
         }
     }
+
+    @Override
+    public void update(Observable observable, Object o) {}
 }
