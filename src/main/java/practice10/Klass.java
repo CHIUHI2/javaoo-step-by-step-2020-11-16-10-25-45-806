@@ -46,8 +46,7 @@ public class Klass extends Observable {
         return this.memberList.stream().anyMatch(member -> member.equals(student));
     }
 
-    @Override
-    public synchronized void addObserver(Observer observer) {
+    public synchronized void addObserver(PractiseObserver observer) {
         if(observer == null) {
             return;
         }

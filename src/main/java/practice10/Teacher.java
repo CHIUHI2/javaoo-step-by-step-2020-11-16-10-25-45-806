@@ -52,7 +52,4 @@ public class Teacher extends Person implements PractiseObserver {
             System.out.print("I am " + super.getName() + ". I know " + student.getName() + " become Leader of " + klass.getDisplayName() + ".\n");
         }
     }
-
-    @Override
-    public void update(Observable observable, Object o) {}
 }
