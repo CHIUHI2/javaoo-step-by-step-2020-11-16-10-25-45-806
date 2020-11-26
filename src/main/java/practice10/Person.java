@@ -27,7 +27,7 @@ public class Person {
 
     @Override
     public boolean equals(Object o) {
-        if(o == null) {
+        if(o == null || !(o instanceof Person)) {
             return false;
         }
 
