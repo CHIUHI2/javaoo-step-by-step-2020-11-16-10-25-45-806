@@ -2,15 +2,12 @@ package practice10;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Observable;
-import java.util.Observer;
 
-public class Klass extends Observable {
-    private Integer number;
-    private String displayName;
+public class Klass extends KlassObservable {
+    private final Integer number;
+    private final String displayName;
     private Student leader;
     private List<Student> memberList;
-    private ArrayList<Teacher> teacherList = new ArrayList<>();
 
     public Klass(Integer number) {
         this.number = number;
@@ -29,32 +26,25 @@ public class Klass extends Observable {
             this.memberList.add(student);
         }
 
-        this.inform("appendMember", student);
+        this.setChanged();
+        this.setEvent(KlassObservableEvent.APPEND_MEMBER);
+        this.notifyObservers(student);
     }
 
-    public void assignLeader(Student leader) {
-        if(!isIn(leader)) {
+    public void assignLeader(Student student) {
+        if(!isIn(student)) {
             System.out.print("It is not one of us.\n");
             return;
         }
 
-        this.leader = leader;
-        this.inform("assignLeader", leader);
+        this.leader = student;
+
+        this.setChanged();
+        this.setEvent(KlassObservableEvent.ASSIGN_LEADER);
+        this.notifyObservers(student);
     }
 
     public boolean isIn(Student student) {
         return this.memberList.stream().anyMatch(member -> member.equals(student));
-    }
-
-    public synchronized void addObserver(PractiseObserver observer) {
-        if(observer == null) {
-            return;
-        }
-
-        this.teacherList.add((Teacher) observer);
-    }
-
-    public void inform(String actionType, Student student) {
-        teacherList.stream().forEach(teacher -> teacher.notifyForAction(this, student, actionType));
     }
 }

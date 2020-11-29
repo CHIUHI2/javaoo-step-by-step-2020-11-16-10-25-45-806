@@ -1,6 +1,6 @@
 package practice10;
 
-public class Student extends Person{
+public class Student extends Person {
     private Klass klass;
 
     public Student(Integer id, String name, int age, Klass klass) {
@@ -9,17 +9,19 @@ public class Student extends Person{
         klass.appendMember(this);
     }
 
-    public Klass getKlass() { return klass; }
+    public Klass getKlass() {
+        return this.klass;
+    }
 
     @Override
     public String introduce() {
-        String message = "I am at " + klass.getDisplayName();
+        String message = String.format("I am at %s", this.klass.getDisplayName());
 
         Student leader = this.klass.getLeader();
-        if(leader != null && leader.equals(this)) {
-            message = "I am Leader of " + klass.getDisplayName();
+        if (leader != null && leader.equals(this)) {
+            message = String.format("I am Leader of %s", this.klass.getDisplayName());
         }
 
-        return  super.introduce() + " I am a Student. " + message + ".";
+        return String.format("%s I am a Student. %s.", super.introduce(), message);
     }
 }
