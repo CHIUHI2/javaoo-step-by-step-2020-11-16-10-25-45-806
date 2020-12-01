@@ -2,12 +2,14 @@ package practice10;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Observable;
 
-public class Klass extends KlassObservable {
+public class Klass extends Observable {
     private final Integer number;
     private final String displayName;
     private Student leader;
     private List<Student> memberList;
+    private KlassObservableEvent event;
 
     public Klass(Integer number) {
         this.number = number;
@@ -15,14 +17,28 @@ public class Klass extends KlassObservable {
         this.memberList = new ArrayList<>();
     }
 
-    public Integer getNumber() { return number; }
+    public Integer getNumber() {
+        return number;
+    }
 
-    public Student getLeader() { return leader; }
+    public Student getLeader() {
+        return leader;
+    }
 
-    public String getDisplayName() { return displayName; }
+    public String getDisplayName() {
+        return displayName;
+    }
+
+    public KlassObservableEvent getEvent() {
+        return event;
+    }
+
+    public void setEvent(KlassObservableEvent event) {
+        this.event = event;
+    }
 
     public void appendMember(Student student) {
-        if(!this.memberList.contains(student)) {
+        if (!this.memberList.contains(student)) {
             this.memberList.add(student);
         }
 
@@ -32,7 +48,7 @@ public class Klass extends KlassObservable {
     }
 
     public void assignLeader(Student student) {
-        if(!isIn(student)) {
+        if (!isIn(student)) {
             System.out.print("It is not one of us.\n");
             return;
         }
